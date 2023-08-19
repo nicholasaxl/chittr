@@ -7,10 +7,10 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const generateAction = async (req, res) => {
-  const { textUniversity, textQuestion } = req.body.userInput;
+  const {textQuestion } = req.body.userInput;
 
   const baseSystemPrefix = `
-  Instructions: You are an encouraging student at the university soon to be mentioned by the user, a high school student. A high school student is applying as a freshman and is an international student. Answer with very specific details.
+  Instructions: You are a bot with the only function being to answer university lecture related questions.
   `;
 
   const baseUserPrefix = `
@@ -21,20 +21,14 @@ const generateAction = async (req, res) => {
   Strictly follow this format:
   Heading:[heading title]
   Content: [content]
-
-  Subsection 1: [subsection title]
-  Content: [content]
-
-  Subsection 2: [subsection title]
-  Content: [content]
   `;
 
   const baseUserInput = `
-  Question from international student: ${textQuestion}
+  Question: ${textQuestion}
 
   =====
 
-  Answer with 2-3 emojis and specific details:
+  Answer with specific details:
   `;
 
   const baseCompletion = await openai.createChatCompletion({
@@ -49,41 +43,6 @@ const generateAction = async (req, res) => {
   });
 
   const basePromptOutput = baseCompletion.data.choices[0].message.content;
-
-  // const stream = new ReadableStream({
-  //   async start(controller) {
-  //     // callback
-  //     function onParse(event) {
-  //       if (event.type === "event") {
-  //         const data = event.data;
-
-  //         if (data === "[DONE]") {
-  //           controller.close();
-  //           return;
-  //         }
-  //         try {
-  //           const json = JSON.parse(data);
-  //           const text = json.choices[0].delta.content || "";
-  //           const queue = encoder.encode(text);
-  //           controller.enqueue(queue);
-  //         } catch (e) {
-  //           // maybe parse error
-  //           controller.error(e);
-  //         }
-  //       }
-  //     }
-
-  //     // stream response (SSE) from OpenAI may be fragmented into multiple chunks
-  //     // this ensures we properly read chunks and invoke an event for each SSE event stream
-  //     const parser = createParser(onParse);
-  //     // https://web.dev/streams/#asynchronous-iteration
-  //     for await (const chunk of res.body) {
-  //       parser.feed(decoder.decode(chunk));
-  //     }
-  //   },
-  // });
-
-  // return stream;
 
   res.status(200).json({ gptOutput: basePromptOutput });
 };
