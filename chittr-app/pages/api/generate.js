@@ -1,10 +1,9 @@
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from 'openai';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, 
 });
 
-const openai = new OpenAIApi(configuration);
 
 const generateAction = async (req, res) => {
   const {textQuestion } = req.body.userInput;
@@ -31,7 +30,7 @@ const generateAction = async (req, res) => {
   Answer with specific details:
   `;
 
-  const baseCompletion = await openai.createChatCompletion({
+  const baseCompletion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     temperature: 0.55,
     messages: [
@@ -42,7 +41,7 @@ const generateAction = async (req, res) => {
     stream: false,
   });
 
-  const basePromptOutput = baseCompletion.data.choices[0].message.content;
+  const basePromptOutput = baseCompletion.choices[0].message.content;
 
   res.status(200).json({ gptOutput: basePromptOutput });
 };
