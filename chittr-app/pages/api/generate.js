@@ -1,4 +1,5 @@
-import OpenAI from 'openai';
+import { ChatOpenAI } from "langchain/chat_models/openai";
+import { HumanMessage } from "langchain/schema";
 import { PineconeClient } from '@pinecone-database/pinecone';
 const pinecone = new PineconeClient();
 
@@ -7,44 +8,30 @@ await pinecone.init({
   environment: "gcp-starter",
 });
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, 
+const model = new ChatOpenAI({
+  modelName: "gpt-3.5-turbo",
+  temperature: 0.5,
+  openAIApiKey: process.env.OPENAI_API_KEY,
 });
 
 
 const generateAction = async (req, res) => {
-  const {textQuestion } = req.body.userInput;
+  try {
+    const { textQuestion } = req.body.userInput;
 
-  const baseSystemPrefix = `
-  Instructions: You are a bot with the only function being to answer university lecture related questions.
-  `;
+    const response = await model.predictMessages([
+      new HumanMessage(textQuestion),
+    ]);
 
-  const baseUserPrefix = `
-  Question: What is the answer to the following question?
-  `;
+    const gptOutput = response.content || "No response from the model.";
 
-  const baseUserInput = `
-  Question: ${textQuestion}
+    console.log("GPT Response:", response.content); // Add this line for logging
 
-  =====
-
-  Answer with specific details:
-  `;
-
-  const baseCompletion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    temperature: 0.55,
-    messages: [
-      { role: "system", content: baseSystemPrefix },
-      { role: "user", content: baseUserPrefix },
-      { role: "user", content: baseUserInput },
-    ],
-    stream: false,
-  });
-
-  const basePromptOutput = baseCompletion.choices[0].message.content;
-
-  res.status(200).json({ gptOutput: basePromptOutput });
+    res.status(200).json({ gptOutput });
+  } catch (error) {
+    console.error("Error:", error); // Add this line for logging
+    res.status(500).json({ error: "An error occurred" });
+  }
 };
 
 export default generateAction;

@@ -8,13 +8,6 @@ function ChatBox() {
     setUserInput(e.target.value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-      setUserInput('');
-    }
-  };
-
   async function fetchBotResponse(question) {
     const response = await fetch('/api/generate', {
       method: 'POST',
@@ -61,6 +54,9 @@ function ChatBox() {
     // Add the bot message to the messages array
     const finalMessages = [...updatedMessages, newBotMessage];
     setMessages(finalMessages);
+  
+    // Clear the user input
+    setUserInput('');
   };
   
 
@@ -75,11 +71,12 @@ function ChatBox() {
           </div>
           <div>
             <input
+              type="text"
               value={userInput}
               onChange={handleUserInputChange}
-              onKeyDown={handleKeyDown}
               placeholder="Type a message..."
             />
+            <button onClick={handleSendMessage}>Send</button>
           </div>
         </div>
   );
