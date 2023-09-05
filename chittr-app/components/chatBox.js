@@ -4,7 +4,6 @@ function ChatBox() {
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([]);
 
-  // Function to handle user input change
   const handleUserInputChange = (e) => {
     setUserInput(e.target.value);
   };
@@ -24,7 +23,7 @@ function ChatBox() {
   
     const data = await response.json();
     return data.gptOutput;
-  }
+  } 
   
 
   const handleSendMessage = async () => {
@@ -39,20 +38,22 @@ function ChatBox() {
       role: "user",
     };
   
-    // Add the user message to the messages array
-    setMessages([...messages, newUserMessage]);
-  
-    // Fetch bot's response
-    const botResponse = await fetchBotResponse(userInput);
-  
-    // Create a new bot message
-    const newBotMessage = {
-      content: botResponse,
-      role: "bot",
-    };
+   // Add the user message to the messages array
+   const updatedMessages = [...messages, newUserMessage];
+   setMessages(updatedMessages);
+ 
+   // Fetch bot's response
+   const botResponse = await fetchBotResponse(userInput);
+ 
+   // Create a new bot message
+   const newBotMessage = {
+     content: botResponse,
+     role: "bot",
+  };
   
     // Add the bot message to the messages array
-    setMessages([...messages, newBotMessage]);
+    const finalMessages = [...updatedMessages, newBotMessage];
+    setMessages(finalMessages);
   
     // Clear the user input
     setUserInput('');
@@ -60,34 +61,24 @@ function ChatBox() {
   
 
   return (
-    <div className="">
-      <div className="flex-grow space-y-4">
-        {messages.map((msg, index) => {
-          return (
-            <div className={`chat ${msg.role === "bot" ? "chat-start" : "chat-end"}`} key={"chatKey" + index}>
-              <div className="chat-bubble shadow-md text-[hsl(209,5%,47%)] bg-[hsl(168,97%,95%)] w-auto max-w-xl break-words font-bold">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div>
+            {messages.map((msg, index) => (
+              <div key={index} style={{ textAlign: msg.role === 'user' ? 'right' : 'left' }}>
                 {msg.content}
               </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className=" space-x-2">
-        <input
-          type="text"
-          value={userInput}
-          onChange={handleUserInputChange}
-          className="flex-grow px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Type a message..."
-        />
-        <button
-          onClick={handleSendMessage}
-          className="px-4 py-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-        >
-          Send
-        </button>
-      </div>
-    </div>
+            ))}
+          </div>
+          <div>
+            <input
+              type="text"
+              value={userInput}
+              onChange={handleUserInputChange}
+              placeholder="Type a message..."
+            />
+            <button onClick={handleSendMessage}>Send</button>
+          </div>
+        </div>
   );
 }
 

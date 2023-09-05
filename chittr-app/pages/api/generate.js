@@ -1,4 +1,11 @@
 import OpenAI from 'openai';
+import { PineconeClient } from '@pinecone-database/pinecone';
+const pinecone = new PineconeClient();
+
+await pinecone.init({
+  apiKey: process.env.PINECONE_API_KEY, 
+  environment: "gcp-starter",
+});
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, 
@@ -13,13 +20,7 @@ const generateAction = async (req, res) => {
   `;
 
   const baseUserPrefix = `
-  Include a main section and 3-5 subsections.
-
-  ====
-
-  Strictly follow this format:
-  Heading:[heading title]
-  Content: [content]
+  Question: What is the answer to the following question?
   `;
 
   const baseUserInput = `
