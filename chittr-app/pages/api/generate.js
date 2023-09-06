@@ -5,14 +5,14 @@ import { PineconeClient } from '@pinecone-database/pinecone';
 const pinecone = new PineconeClient();
 
 await pinecone.init({
-  apiKey: PINECONE_API_KEY, 
+  apiKey: process.env.PINECONE_API_KEY, 
   environment: "gcp-starter",
 });
 
 const model = new ChatOpenAI({
   modelName: "gpt-3.5-turbo",
   temperature: 0.5,
-  openAIApiKey: OPENAI_API_KEY,
+  openAIApiKey: process.env.OPENAI_API_KEY,
 });
 
 
