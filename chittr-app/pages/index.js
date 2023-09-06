@@ -1,10 +1,5 @@
 import React from 'react';
 import ChatBox from '../components/ChatBox';
-import { TextLoader } from "langchain/document_loaders/fs/text";
-
-const loader = new JSONLoader("src/document_loaders/example_data/example.json");
-const docs = await loader.load();
-console.logs(docs)
 
 function Home() {
   return (
