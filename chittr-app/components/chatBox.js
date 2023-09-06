@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-function ChatBox() {
+function chatBox() {
   const [userInput, setUserInput] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -86,4 +86,4 @@ function ChatBox() {
   );
 }
 
-export default ChatBox;
+export default chatBox;
