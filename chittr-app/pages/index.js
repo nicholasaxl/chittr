@@ -1,5 +1,12 @@
 import React from 'react';
 import ChatBox from '../components/chatBox.js';
+import { JSONLoader } from "langchain/document_loaders/fs/json";
+const loader = new JSONLoader(
+  "src/document_loaders/example_data/example.json",
+  ["/from", "/surname"]
+);
+
+console.log("Loader:", loader);
 
 function Home() {
   return (
