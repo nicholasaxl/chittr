@@ -6,7 +6,7 @@ const loader = new JSONLoader(
   "../document_loaders/example_data/example.json",
   ["/from", "/surname"]
 );
-const docs = await loader.load();
+//const docs = await loader.load();
 
 
 function Home() {
