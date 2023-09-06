@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node index.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "daisyui": "^3.5.1"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
