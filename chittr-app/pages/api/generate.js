@@ -1,6 +1,7 @@
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage } from "langchain/schema";
 import { PineconeClient } from '@pinecone-database/pinecone';
+
 const pinecone = new PineconeClient();
 
 await pinecone.init({
