@@ -1,6 +1,12 @@
 import React from 'react';
 import ChatBox from '../components/chatBox.js';
+import axios from 'axios';
 
+const docs = axios.get('http://127.0.0.1:3001/').then(function (response) {
+  // handle success
+  console.log(response.data);
+  return response;
+});
 
 function Home() {
   return (
