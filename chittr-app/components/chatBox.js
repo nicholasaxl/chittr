@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import axios from 'axios';
 
 function ChatBox() {
   const [userInput, setUserInput] = useState('');
@@ -16,21 +16,15 @@ function ChatBox() {
     }
   };
 
-  async function fetchBotResponse(question) {
-    const response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userInput: {
-          textQuestion: question,
-        },
-      }),
-    });
-  
-    const data = await response.json();
-    return data.gptOutput;
+  async function fetchBotResponse(q) {
+
+    const res = await axios.post(
+      "http://localhost:3001", 
+      {question: q},
+      {headers: { "Content-Type": "application/json" }}
+    );
+
+    return res.data;
   } 
   
 

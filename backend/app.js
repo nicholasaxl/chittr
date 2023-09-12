@@ -10,11 +10,15 @@ import { createIndex } from "./createIndex.js";
 import { updatePinecone } from "./updatePinecone.js";
 import { queryPinecone } from "./queryPinecone.js";
 import { TextLoader } from "langchain/document_loaders/fs/text";
+import { sleep } from 'openai/core.js';
+import bodyParser from 'body-parser';
+
 
 const loader = new TextLoader("document_loaders/example_data/cs188.txt");
 const docs = await loader.load();
 
-const question = "Will there be any scores dropped?";
+var question = "";
+var resultText = "";
 
 const indexName = "chittr-cs188-test";
 const vectorDimension = 1536;
@@ -27,16 +31,17 @@ await client.init({
 (async () => {
     // await createIndex(client, indexName, vectorDimension);
     // await updatePinecone(client, indexName, docs);
-    await queryPinecone(client, indexName, question);
-  })();
+})();
 
 //express 
 const app = express()
 const port = 3001
-app.use(cors());
+app.use(cors(), bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.send(docs)
+app.post('/', async (req, res) => {
+  question = req.body.question;
+  resultText = await queryPinecone(client, indexName, question);
+  res.send(resultText)
 })
 
 app.listen(port, () => {

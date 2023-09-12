@@ -2,11 +2,8 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { OpenAI } from "langchain/llms/openai";
 import { loadQAStuffChain } from "langchain/chains";
 import { Document } from "langchain/document";
-export const queryPinecone = async (
-  client,
-  indexName,
-  question
-) => {
+
+export const queryPinecone = async (client, indexName, question) => {
   console.log("Querying Pinecone vector store...");
   const index = client.Index(indexName);
   const queryEmbedding = await new OpenAIEmbeddings().embedQuery(question);
@@ -31,7 +28,10 @@ export const queryPinecone = async (
       question: question,
     });
     console.log(`Answer: ${result.text}`);
+    return result.text;
+    
   } else {
     console.log("Query failed, no related matches found.");
+    return null;
   }
 };
