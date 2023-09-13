@@ -44,9 +44,9 @@ const port = 3001
 app.use(cors(), bodyParser.json());
 
 //send
-// app.get('/', (req, res) => {
-//   res.send(docs)
-// })
+app.get('/', (req, res) => {
+  res.send("hello world")
+})
 
 //query
 app.post('/', async (req, res) => {
