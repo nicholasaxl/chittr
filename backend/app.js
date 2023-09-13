@@ -15,11 +15,11 @@ import { sleep } from 'openai/core.js';
 import bodyParser from 'body-parser';
 
 
-const loader = YoutubeLoader.createFromUrl("https://youtu.be/V-NH5orGUi8?si=gM38t5jAFVjzgF0h", {
-  language: "en",
-  addVideoInfo: true,
-});
-const docs = await loader.load();
+// const loader = YoutubeLoader.createFromUrl("https://youtu.be/V-NH5orGUi8?si=gM38t5jAFVjzgF0h", {
+//   language: "en",
+//   addVideoInfo: true,
+// });
+// const docs = await loader.load();
 
 var question = "";
 var resultText = "";
