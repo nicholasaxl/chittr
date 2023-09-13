@@ -19,7 +19,7 @@ function ChatBox() {
   async function fetchBotResponse(q) {
 
     const res = await axios.post(
-      "https://chittr-fkjt226j6-nicholasaxl.vercel.app", 
+      "https://chittr-vert.vercel.app/", 
       {question: q},
       {headers: { "Content-Type": "application/json" }}
     );
