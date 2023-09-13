@@ -1,8 +1,9 @@
-// import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
+
+// import dotenv from 'dotenv';
 // dotenv.config();
-//
+
 
 import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 import { PineconeClient } from "@pinecone-database/pinecone";
@@ -43,7 +44,7 @@ const app = express()
 const port = 3001
 app.use(cors(), bodyParser.json());
 
-//send
+send
 app.get('/', (req, res) => {
   res.send("hello world")
 })
