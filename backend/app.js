@@ -1,7 +1,5 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-dotenv.config();
 
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
