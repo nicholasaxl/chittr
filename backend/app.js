@@ -59,4 +59,4 @@ app.listen(port, () => {
   console.log("listening on port 3001")
 })
 
-module.exports = app;
+export default app;
