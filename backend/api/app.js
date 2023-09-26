@@ -5,6 +5,7 @@ import cors from 'cors';
 // dotenv.config();
 
 
+import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
@@ -14,6 +15,13 @@ import { queryPinecone } from "../queryPinecone.js";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { sleep } from 'openai/core.js';
 import bodyParser from 'body-parser';
+
+
+// const loader = YoutubeLoader.createFromUrl("https://youtu.be/V-NH5orGUi8?si=gM38t5jAFVjzgF0h", {
+//   language: "en",
+//   addVideoInfo: true,
+// });
+// const docs = await loader.load();
 
 var question = "";
 var resultText = "";
